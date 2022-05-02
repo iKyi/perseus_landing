@@ -1,0 +1,1 @@
+export const contactText = `Operational office: 17 Carbunarilor Str., 1st District, 013988, Bucharest – Romania<br /><br />Registered office: 17 Carbunarilor Str., 1st District, 013988, Bucharest – Romania<br /><br />Telephone: +40 (0) 21.311.0087`;
