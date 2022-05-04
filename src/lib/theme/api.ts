@@ -1,7 +1,7 @@
+import { API_URL } from "constants/general_contants";
+
 export function getStrapiURL(path = "") {
-  return `${
-    process.env.REACT_APP_STRAPI_URL || "http://localhost:1337"
-  }${path}`;
+  return `${API_URL || "http://localhost:1337"}${path}`;
 }
 
 // Helper to make GET requests to Strapi

@@ -1,34 +1,44 @@
 import SectionWrapper from "components/Reusable/SectionWrapper";
-import axiosGetter from "lib/axios/axiosGetter";
-import { investorRelationsMockData } from "mockData/investorRelations";
+import { axiosStrapiGetter } from "lib/axios/axiosGetter";
 import { useEffect, useState } from "react";
 import { sectionMarginBottom } from "constants/styleConstants";
 import DocumentsSlider from "./DocumentsSlider";
+import ISectionHeaderStrapi from "utils/types/ISectionHeader";
 
 export type IInvestorRelationsDocumentEntry = {
-  name: string;
-  url: string;
+  attributes: {
+    name: string;
+    url: string;
+  };
+  id: number;
 };
 
 export type IInvestorRelationsYearEntry = {
-  year: string;
-  documents: IInvestorRelationsDocumentEntry[];
+  // year: string;
+  // documents: IInvestorRelationsDocumentEntry[];
+  attributes: {
+    yearText: string;
+    files: {
+      data: IInvestorRelationsDocumentEntry[];
+    };
+  };
 };
 
-export type IInvestorRelationsTabData = {
-  years: IInvestorRelationsYearEntry[];
-};
+export type IInvestorRelationsTabData = IInvestorRelationsYearEntry[];
 
-export type InvestorRelationsPropsType = {};
+export type InvestorRelationsPropsType = { header: ISectionHeaderStrapi };
 
-const InvestorRelations: React.FC<InvestorRelationsPropsType> = () => {
+const InvestorRelations: React.FC<InvestorRelationsPropsType> = ({
+  header,
+}) => {
   const [pageData, setPageData] = useState<IInvestorRelationsTabData | null>(
     null
   );
 
   useEffect(() => {
-    axiosGetter("https://jsonplaceholder.typicode.com/todos/1").then(() => {
-      setPageData(investorRelationsMockData);
+    axiosStrapiGetter("landing-document-years?populate=*").then((resp) => {
+      const { data } = resp;
+      setPageData(data);
     });
   }, []);
 
@@ -36,8 +46,7 @@ const InvestorRelations: React.FC<InvestorRelationsPropsType> = () => {
   if (!pageData) return null;
   return (
     <SectionWrapper
-      title="Investor relations"
-      description="You find here the financials for the last 5 years"
+      {...header}
       sx={{
         mb: sectionMarginBottom,
       }}

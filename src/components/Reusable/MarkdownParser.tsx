@@ -5,9 +5,13 @@ export type MarkdownParserPropsType = {
   children: string;
 };
 
-const MarkdownParser: React.VFC<MarkdownParserPropsType> = ({ children }) => {
+const MarkdownParser: React.FC<MarkdownParserPropsType> = ({ children }) => {
   // *************** RENDER *************** //
-  return <ReactMarkdown rehypePlugins={[rehypeRaw]}>{children}</ReactMarkdown>;
+  return (
+    <ReactMarkdown rehypePlugins={[rehypeRaw]} skipHtml={false}>
+      {children}
+    </ReactMarkdown>
+  );
 };
 
 export default MarkdownParser;

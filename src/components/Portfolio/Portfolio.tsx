@@ -7,18 +7,14 @@ import four from "assets/images/portfolio/4.png";
 import five from "assets/images/portfolio/5.png";
 import six from "assets/images/portfolio/6.png";
 import { sectionMarginBottom } from "constants/styleConstants";
+import ISectionHeaderStrapi from "utils/types/ISectionHeader";
 
-export type PortfolioPropsType = {};
+export type PortfolioPropsType = { header: ISectionHeaderStrapi };
 
-const Portfolio: React.FC<PortfolioPropsType> = () => {
+const Portfolio: React.FC<PortfolioPropsType> = ({ header }) => {
   // *************** RENDER *************** //
   return (
-    <SectionWrapper
-      title="Portfolio"
-      description="20% of the share capital of APEX TP ADVANCE Ltd owner of the trading platform APEX"
-      id="portfolio"
-      sx={{ mb: sectionMarginBottom }}
-    >
+    <SectionWrapper {...header} id="portfolio" sx={{ mb: sectionMarginBottom }}>
       <Grid container spacing={[3, 3, 4.5]}>
         {[one, two, three, four, five, six].map((item, index) => (
           <Grid item key={index} xs={12} sm={6} md={4}>

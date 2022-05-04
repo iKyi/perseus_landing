@@ -1,10 +1,14 @@
 import { Box, Button, Grid, Container } from "@mui/material";
 import SectionHeader from "components/Reusable/SectionHeader";
 import { sectionMarginBottom } from "constants/styleConstants";
-import earthImage from "assets/images/homeIntroBox/earthImage.png";
 import { styled } from "@mui/system";
+import ISectionHeaderStrapi from "utils/types/ISectionHeader";
+import { getStrapiMedia } from "lib/theme/media";
 
-export type IntroboxPropsType = {};
+export type IntroboxPropsType = {
+  header: ISectionHeaderStrapi;
+  sectionImage?: any;
+};
 
 const EarthImage = styled("img")(({ theme }) => ({
   width: "100%",
@@ -15,7 +19,7 @@ const EarthImage = styled("img")(({ theme }) => ({
   },
 }));
 
-const Introbox: React.FC<IntroboxPropsType> = () => {
+const Introbox: React.FC<IntroboxPropsType> = ({ header, sectionImage }) => {
   // *************** RENDER *************** //
   return (
     <Box
@@ -39,8 +43,7 @@ const Introbox: React.FC<IntroboxPropsType> = () => {
           >
             <Box>
               <SectionHeader
-                title="Invest, collect,  lorem ipsum sin dolore with us."
-                description="An investment company listed on the Bucharest Stock Exchange focused on distressed situations and on high-growth business based on the new media technologies"
+                {...header}
                 sx={{
                   textAlign: "left",
                 }}
@@ -59,18 +62,23 @@ const Introbox: React.FC<IntroboxPropsType> = () => {
               </Button>
             </Box>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            md={6}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <EarthImage src={earthImage} alt="digital earth" />
-          </Grid>
+          {sectionImage && (
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <EarthImage
+                src={getStrapiMedia(sectionImage)}
+                alt="digital earth"
+              />
+            </Grid>
+          )}
         </Grid>
       </Container>
     </Box>

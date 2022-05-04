@@ -7,25 +7,58 @@ import AboutUsBox from "components/Home/AbousUsBox/AboutUsBox";
 import Portfolio from "components/Portfolio/Portfolio";
 import Introbox from "components/Home/IntroBox/Introbox";
 import { ArrowUpwardOutlined } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import { axiosStrapiGetter } from "lib/axios/axiosGetter";
+import ISectionHeaderStrapi from "utils/types/ISectionHeader";
 
 const App: React.FC = () => {
+  const [landingData, setLandingData] = useState<any>(null);
+
+  useEffect(() => {
+    axiosStrapiGetter("landing-text-data?populate=*").then((resp) => {
+      setLandingData(resp?.data?.attributes ?? {});
+    });
+  }, []);
+
   const windowScrollTop = () => {
     window.scrollTo(0, 0);
   };
+
+  const {
+    AboutUsHeader,
+    ContactHeader,
+    InvestorRelationsHeader,
+    introBoxHeader,
+    portfolioHeader,
+    introBoxImage,
+    aboutUsImage,
+    aboutUsEntries,
+    footerText,
+    socialLinks,
+  } = landingData || {};
 
   return (
     <>
       <Container>
         <Header />
       </Container>
-      <Introbox />
+      <Introbox
+        header={introBoxHeader as ISectionHeaderStrapi}
+        sectionImage={introBoxImage}
+      />
       <Container>
-        <Portfolio />
-        <AboutUsBox />
-        <InvestorRelations />
-        <ContactBox />
+        <Portfolio header={portfolioHeader as ISectionHeaderStrapi} />
+        <AboutUsBox
+          header={AboutUsHeader as ISectionHeaderStrapi}
+          aboutUsImage={aboutUsImage}
+          aboutUsEntries={aboutUsEntries}
+        />
+        <InvestorRelations
+          header={InvestorRelationsHeader as ISectionHeaderStrapi}
+        />
+        <ContactBox header={ContactHeader as ISectionHeaderStrapi} />
       </Container>
-      <Footer />
+      <Footer socialLinks={socialLinks} text={footerText} />
       <Fab
         aria-label="back to top"
         sx={{

@@ -74,11 +74,11 @@ const DocumentsSlider: React.FC<DocumentsSliderPropsType> = ({ data }) => {
           aria-label="Years documents tabs"
           centered
         >
-          {data.years.map((item, index) => {
+          {data.map((item, index) => {
             return (
               <Tab
-                key={item.year}
-                label={item.year}
+                key={item.attributes.yearText + index}
+                label={item.attributes.yearText}
                 {...a11yProps(index)}
                 sx={TabButtonStyles}
               />
@@ -86,10 +86,14 @@ const DocumentsSlider: React.FC<DocumentsSliderPropsType> = ({ data }) => {
           })}
         </Tabs>
       </Box>
-      {data.years.map((item, index) => {
+      {data.map((item, index) => {
         return (
-          <TabPanel value={value} index={index} key={item.year}>
-            <DocumentSlideInner documentItems={item.documents} />
+          <TabPanel
+            value={value}
+            index={index}
+            key={item.attributes.yearText + index}
+          >
+            <DocumentSlideInner documentItems={item.attributes?.files?.data} />
           </TabPanel>
         );
       })}

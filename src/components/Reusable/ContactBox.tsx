@@ -7,6 +7,7 @@ import { SxProps } from "@mui/material";
 import SectionHeader from "./SectionHeader";
 import contactBg from "assets/images/contactBox/background.png";
 import { sectionMarginBottom } from "constants/styleConstants";
+import ISectionHeaderStrapi from "utils/types/ISectionHeader";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -35,11 +36,10 @@ const schema = yup
 
 export type ContactBoxPropsType = {
   sx?: SxProps;
-  preTitle?: string;
-  title?: string;
+  header: ISectionHeaderStrapi;
 };
 
-const ContactBox: React.FC<ContactBoxPropsType> = ({ sx, preTitle, title }) => {
+const ContactBox: React.FC<ContactBoxPropsType> = ({ sx, header }) => {
   const {
     handleSubmit,
     control,
@@ -74,7 +74,7 @@ const ContactBox: React.FC<ContactBoxPropsType> = ({ sx, preTitle, title }) => {
       }}
       id="contact"
     >
-      <SectionHeader title="Get in touch with us" />
+      <SectionHeader {...header} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={[2, 2, 4, 4]}>
           <Grid item xs={12} sm={12} md={4}>

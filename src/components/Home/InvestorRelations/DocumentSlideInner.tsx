@@ -12,6 +12,8 @@ import { SimCardDownloadOutlined } from "@mui/icons-material";
 import "swiper/css";
 import "swiper/css/navigation";
 import { styled } from "@mui/system";
+import { FONTS } from "lib/theme";
+import { API_URL } from "constants/general_contants";
 
 const StyledSwiper = styled(Swiper)(({ theme }) => ({
   ".swiper-button-next": {
@@ -39,6 +41,19 @@ const DocumentSlideInner: React.FC<DocumentSlideInnerPropsType> = ({
   documentItems,
 }) => {
   // *************** RENDER ****f*********** //
+  if (!documentItems || documentItems?.length === 0) {
+    return (
+      <Box
+        sx={{
+          p: 3,
+          textAlign: "center",
+          fontFamily: FONTS.POPPINS,
+        }}
+      >
+        No documents available for this year.
+      </Box>
+    );
+  }
   return (
     <StyledSwiper
       spaceBetween={45}
@@ -58,9 +73,9 @@ const DocumentSlideInner: React.FC<DocumentSlideInnerPropsType> = ({
         },
       }}
     >
-      {documentItems.map((doc) => {
+      {documentItems?.map((doc) => {
         return (
-          <SwiperSlide key={doc.url + doc.name}>
+          <SwiperSlide key={doc.attributes.name + doc.attributes.url}>
             <CardActionArea
               sx={{
                 border: "1px solid",
@@ -70,7 +85,10 @@ const DocumentSlideInner: React.FC<DocumentSlideInnerPropsType> = ({
                 backdropFilter: "blur(642.519px)",
               }}
               component={MUILink}
-              href={doc.url}
+              href={`${API_URL.replace(
+                "/api",
+                ""
+              )}${doc?.attributes?.url?.replace("/uploads", "uploads")}`}
               target="_blank"
               rel="noopener"
             >
@@ -79,12 +97,19 @@ const DocumentSlideInner: React.FC<DocumentSlideInnerPropsType> = ({
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  px: 3,
+                  px: 2.3,
                   py: 3,
                 }}
               >
-                <Typography component="span" sx={{ fontWeight: "400" }}>
-                  {doc.name}
+                <Typography
+                  component="span"
+                  sx={{
+                    fontWeight: "400",
+                    fontFamily: FONTS.POPPINS,
+                    fontSize: "0.9rem",
+                  }}
+                >
+                  {doc.attributes.name}
                 </Typography>
                 <Box sx={{ fontSize: "1.8rem" }}>
                   <SimCardDownloadOutlined color="inherit" fontSize="inherit" />

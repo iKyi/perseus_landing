@@ -8,12 +8,16 @@ import {
   Typography,
 } from "@mui/material";
 import MarkdownParser from "components/Reusable/MarkdownParser";
-import { contactText } from "mockData/contactText";
 import { ReactNode } from "react";
 import SocialList from "components/Reusable/SocialList";
 
 export type FooterPropsType = {
-  children?: any;
+  text?: string;
+  socialLinks?: {
+    facebook?: string;
+    twitter?: string;
+    linkedin?: string;
+  };
 };
 
 const getYearsValue = () => {
@@ -39,7 +43,7 @@ const FooterTitle: React.FC<{ children: ReactNode; sx?: SxProps }> = ({
   );
 };
 
-const Footer: React.FC<FooterPropsType> = () => {
+const Footer: React.FC<FooterPropsType> = ({ socialLinks, text }) => {
   // *************** RENDER *************** //
   return (
     <Box component="footer" sx={{ pb: [4, 4, 6] }}>
@@ -64,31 +68,31 @@ const Footer: React.FC<FooterPropsType> = () => {
               }}
             >{`© ${getYearsValue()} by Perseusfintech.com`}</Typography>
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <FooterTitle>Contact</FooterTitle>
-            <Box
-              sx={{
-                color: "common.gray",
-                fontWeight: 300,
-              }}
-            >
-              <MarkdownParser>{contactText}</MarkdownParser>
-            </Box>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Box
-              sx={{
-                textAlign: [undefined, undefined, "right"],
-              }}
-            >
-              <FooterTitle>Social media</FooterTitle>
-              <SocialList
-                facebook="https://google.com"
-                twitter="https://google.com"
-                linkedin="https://google.com"
-              />
-            </Box>
-          </Grid>
+          {text && (
+            <Grid item xs={12} sm={6} md={4}>
+              <FooterTitle>Contact</FooterTitle>
+              <Box
+                sx={{
+                  color: "common.gray",
+                  fontWeight: 300,
+                }}
+              >
+                <MarkdownParser>{text}</MarkdownParser>
+              </Box>
+            </Grid>
+          )}
+          {socialLinks && (
+            <Grid item xs={12} sm={6} md={4}>
+              <Box
+                sx={{
+                  textAlign: [undefined, undefined, "right"],
+                }}
+              >
+                <FooterTitle>Social media</FooterTitle>
+                <SocialList {...socialLinks} />
+              </Box>
+            </Grid>
+          )}
         </Grid>
       </Container>
     </Box>
