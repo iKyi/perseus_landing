@@ -8,6 +8,7 @@ import {
   ListItem,
   Stack,
   useMediaQuery,
+  Link
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -37,10 +38,10 @@ export const NavLinks: IHeaderLink[] = [
     name: "Investor Relations",
     url: "#investor-relations",
   },
-  // {
-  //   name: "Token",
-  //   url: "#token",
-  // },
+  {
+     name: "Token",
+     url: "https://perseustoken.com",
+  },
 ];
 
 export type HeaderPropsType = {};
@@ -51,6 +52,10 @@ const lateralWidthStyle = {
 };
 
 const StyledAnchorScroll = styled(AnchorLink)(() => ({
+  textDecoration: "none",
+}));
+
+const StyledMUILink = styled(Link)(() => ({
   textDecoration: "none",
 }));
 
@@ -97,30 +102,54 @@ const Header: React.FC<HeaderPropsType> = () => {
           }}
         >
           <Stack direction={"row"} justifyContent="center">
-            {NavLinks.map((item) => (
-              <StyledAnchorScroll
-                key={item.url}
-                href={item.url}
-                offset={clickOffset}
-              >
-                <Button
-                  sx={{
-                    textTransform: "uppercase",
-                    color: "#fff",
-                    fontWeight: "600",
-                    fontSize: ["0.85rem", "0.85rem", "0.9rem"],
-                    "&:hover": {
-                      background:
-                        "linear-gradient(103.91deg, #8F3CDD 21.01%, rgba(48, 129, 237, 0.8) 100%)",
-                      backgroundClip: "text",
-                      textFillColor: "transparent",
-                    },
-                  }}
+            {NavLinks.map((item) => {
+              if (item.url.includes("http")) { 
+                return (
+                  <StyledMUILink href={item.url} target="_blank">
+                    <Button
+                      sx={{
+                        textTransform: "uppercase",
+                        color: "#fff",
+                        fontWeight: "600",
+                        fontSize: ["0.85rem", "0.85rem", "0.9rem"],
+                        "&:hover": {
+                          background:
+                            "linear-gradient(103.91deg, #8F3CDD 21.01%, rgba(48, 129, 237, 0.8) 100%)",
+                          backgroundClip: "text",
+                          textFillColor: "transparent",
+                        },
+                      }}
+                    >
+                      {item.name}
+                    </Button>
+                  </StyledMUILink>
+                );
+              }
+              return (
+                <StyledAnchorScroll
+                  key={item.url}
+                  href={item.url}
+                  offset={clickOffset}
                 >
-                  {item.name}
-                </Button>
-              </StyledAnchorScroll>
-            ))}
+                  <Button
+                    sx={{
+                      textTransform: "uppercase",
+                      color: "#fff",
+                      fontWeight: "600",
+                      fontSize: ["0.85rem", "0.85rem", "0.9rem"],
+                      "&:hover": {
+                        background:
+                          "linear-gradient(103.91deg, #8F3CDD 21.01%, rgba(48, 129, 237, 0.8) 100%)",
+                        backgroundClip: "text",
+                        textFillColor: "transparent",
+                      },
+                    }}
+                  >
+                    {item.name}
+                  </Button>
+                </StyledAnchorScroll>
+              );
+            })}
           </Stack>
         </Box>
         <Box
